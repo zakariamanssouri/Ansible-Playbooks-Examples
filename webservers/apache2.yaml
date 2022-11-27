@@ -1,0 +1,28 @@
+---
+- name: Verify Apache installation & MySql 
+  hosts: databases
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    http_port: 80
+    max_clients: 200
+  remote_user: root
+  tasks:
+  - name: Ensure Apache is at the latest version
+    ansible.builtin.apt:
+      name:
+        - apache2
+      state: 
+        latest
+    notify:
+      - Restart Apache
+  - name: Ensure Apache is running
+    ansible.builtin.service:
+      name: apache2
+      state: started
+  handlers:
+  - name: Restart Apache
+    ansible.builtin.service:
+      name: apache2
+      state: restarted
