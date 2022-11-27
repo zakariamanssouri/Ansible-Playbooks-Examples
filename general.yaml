@@ -1,0 +1,20 @@
+---
+- name: General Tasks Example
+  hosts: all
+  become: yes
+  become_method: sudo
+  become_user: root
+  remote_user: root
+  tasks:
+  - name: Create a directory
+    ansible.builtin.file:
+      name: custom-directory
+      path: /tmp
+      state: directory
+  - name : Create user bob
+    ansible.builtin.user:
+      name: bob
+      create_home: yes
+      password: $1$m/omUko4$JiVLfR/0aZL59UPwoBH0Y0
+      update_password: always
+      state: present
